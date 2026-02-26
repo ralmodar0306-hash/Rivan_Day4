@@ -329,6 +329,7 @@ conf t
   exit
   
 !@ospf routing edge
+ no router ospf 1
  router ospf 1
   router-id #$34T#.0.0.1
   network 200.0.0.0 0.0.0.255 area 0
@@ -413,6 +414,7 @@ conf t
   exit
  !
  ip routing
+ no router ospf 1
  router ospf 1
   router-id 10.#$34T#.#$34T#.4
   network 10.#$34T#.0.0 0.0.255.255 area 0
@@ -444,6 +446,7 @@ conf t
   ip add 10.#$34T#.100.8 255.255.255.0
   exit
  ip routing
+ no router ospf 1
  router ospf 1
   router-id 10.#$34T#.100.8
   network 10.#$34T#.100.0 0.0.0.255 area 0
