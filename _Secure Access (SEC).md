@@ -1,5 +1,5 @@
 
-<!--   Your Monitor Number  =  #$34T#  -->
+<!--   Your Monitor Number  =  21  -->
 
 ## Review on IPv4 Essentials
 
@@ -98,7 +98,7 @@ conf t
   no shut
   exit
  int g4
-  ip add 10.#$34T#.1.11 255.255.255.0
+  ip add 10.21.1.11 255.255.255.0
   no shut
   exit
  !
@@ -268,14 +268,14 @@ type ethernet \
 con-name BRIDGED \
 ifname ens256 \
 ipv4.method manual \
-ipv4.addresses 10.#$34T#.1.6/24 \
+ipv4.addresses 10.21.1.6/24 \
 autoconnect yes
 
 nmcli connection up BRIDGED
 
 
-ip route add 10.0.0.0/8 via 10.#$34T#.1.4 dev ens256
-ip route add 200.0.0.0/24 via 10.#$34T#.1.4 dev ens256
+ip route add 10.0.0.0/8 via 10.21.1.4 dev ens256
+ip route add 200.0.0.0/24 via 10.21.1.4 dev ens256
 ip route add 0.0.0.0/0 via 11.11.11.113 dev ens224
 ~~~
 
@@ -301,12 +301,12 @@ ip route add 0.0.0.0/0 via 11.11.11.113 dev ens224
 <br>
 
 
-__Make Sure EDGE-#$34T# is Configured__
+__Make Sure EDGE-21 is Configured__
 
 ~~~
-!@EDGE-#$34T#
+!@EDGE-21
 conf t
- hostname EDGE-#$34T#
+ hostname EDGE-21
  enable secret pass
  service password-encryption
  no logging console
@@ -321,24 +321,24 @@ conf t
   exec-timeout 0 0
  int gi 0/0/0
   no shut
-  ip add 10.#$34T#.#$34T#.1 255.255.255.0
+  ip add 10.21.21.1 255.255.255.0
   desc INSIDE
  int gi 0/0/1
   no shut
-  ip add 200.0.0.#$34T# 255.255.255.0
+  ip add 200.0.0.21 255.255.255.0
   desc OUTSIDE
  int loopback 0
-  ip add #$34T#.0.0.1 255.255.255.255
+  ip add 21.0.0.1 255.255.255.255
   desc VIRTUALIP
   exit
   
 !@ospf routing edge
  no router ospf 1
  router ospf 1
-  router-id #$34T#.0.0.1
+  router-id 21.0.0.1
   network 200.0.0.0 0.0.0.255 area 0
-  network 10.#$34T#.#$34T#.0 0.0.0.255 area 0
-  network #$34T#.0.0.1 0.0.0.0 area 0
+  network 10.21.21.0 0.0.0.255 area 0
+  network 21.0.0.1 0.0.0.0 area 0
  int gi 0/0/0
   ip ospf network point-to-point
  end
@@ -347,9 +347,9 @@ conf t
 <br>
 
 ~~~
-!@BABA-#$34T#
+!@BABA-21
 conf t
- hostname coreBaba-#$34T#
+ hostname coreBaba-21
  enable secret pass
  service password-encryption
  no logging console
@@ -365,22 +365,22 @@ conf t
  int gi 0/1
   no shut
   no switchport
-  ip add 10.#$34T#.#$34T#.4 255.255.255.0
+  ip add 10.21.21.4 255.255.255.0
  int vlan 1
   no shut
-  ip add 10.#$34T#.1.4 255.255.255.0
+  ip add 10.21.1.4 255.255.255.0
   desc DEFAULT-VLAN
  int vlan 10
   no shut
-  ip add 10.#$34T#.10.4 255.255.255.0
+  ip add 10.21.10.4 255.255.255.0
   desc WIFI-VLAN
  int vlan 50
   no shut
-  ip add 10.#$34T#.50.4 255.255.255.0
+  ip add 10.21.50.4 255.255.255.0
   desc CCTV-VLAN
  int vlan 100
   no shut
-  ip add 10.#$34T#.100.4 255.255.255.0
+  ip add 10.21.100.4 255.255.255.0
   desc VOICE-VLAN
   exit
  !
@@ -420,8 +420,8 @@ conf t
  ip routing
  no router ospf 1
  router ospf 1
-  router-id 10.#$34T#.#$34T#.4
-  network 10.#$34T#.0.0 0.0.255.255 area 0
+  router-id 10.21.21.4
+  network 10.21.0.0 0.0.255.255 area 0
  int gi 0/1
   ip ospf network point-to-point
   end
@@ -430,9 +430,9 @@ conf t
 <br>
 
 ~~~
-!@CUCM-#$34T#
+!@CUCM-21
 conf t
- hostname CUCM-#$34T#
+ hostname CUCM-21
  enable secret pass
  service password-encryption
  no logging console
@@ -447,13 +447,13 @@ conf t
   exec-timeout 0 0
  int fa 0/0
   no shut
-  ip add 10.#$34T#.100.8 255.255.255.0
+  ip add 10.21.100.8 255.255.255.0
   exit
  ip routing
  no router ospf 1
  router ospf 1
-  router-id 10.#$34T#.100.8
-  network 10.#$34T#.100.0 0.0.0.255 area 0
+  router-id 10.21.100.8
+  network 10.21.100.0 0.0.0.255 area 0
   end
 ~~~
 
@@ -470,8 +470,8 @@ conf t
 ~~~
 !@UTM-PH
 conf t
- ip route 10.0.0.0 255.0.0.0 10.#$34T#.1.4
- ip route 200.0.0.0 255.255.255.0 10.#$34T#.1.4
+ ip route 10.0.0.0 255.0.0.0 10.21.1.4
+ ip route 200.0.0.0 255.255.255.0 10.21.1.4
  end
 ~~~
 
@@ -480,7 +480,7 @@ conf t
 <br>
 
 
-### Task 1: Prevent traffic only from VLAN 100 (CUCM) to reach UTM-PH (10.#$34T#.1.11)
+### Task 1: Prevent traffic only from VLAN 100 (CUCM) to reach UTM-PH (10.21.1.11)
 ~~~
 !@UTM-PH
 config t
@@ -504,9 +504,9 @@ show ip access-list int g4
 Verify:
 ~~~
 !@CUCM
-ping 10.#$34T#.1.11
+ping 10.21.1.11
 
-telnet 10.#$34T#.1.11
+telnet 10.21.1.11
 ~~~
 
 
@@ -530,7 +530,7 @@ conf t
 &nbsp;
 
 
-### Task 2: Prevent traffic coming from the PC (10.#$34T#.1.10) and the EDGE Router from reaching UTM-PH (10.#$34T#.1.11)
+### Task 2: Prevent traffic coming from the PC (10.21.1.10) and the EDGE Router from reaching UTM-PH (10.21.1.11)
 ~~~
 !@UTM-PH
 config t
@@ -568,7 +568,7 @@ conf t
 &nbsp;
 
 
-### Task 3: Allow the PC (10.#$34T#.1.10) to access HTTP, SSH, and ICMP of UTM-PH (10.#$34T#.1.11)
+### Task 3: Allow the PC (10.21.1.10) to access HTTP, SSH, and ICMP of UTM-PH (10.21.1.11)
 
 ` www.fbi.gov  vs  neu.edu.ph `
 
@@ -580,7 +580,7 @@ Make the UTM Router Vulnerable
 ~~~
 !@UTM-PH
 config t
- ip host www.bet11.com 10.#$34T#.1.11
+ ip host www.bet11.com 10.21.1.11
  service finger
  service tcp-small-servers
  service udp-small-servers
@@ -591,7 +591,7 @@ config t
   no auto-reg-ephone
   max-ephones 5
   max-dn 20
-  ip source-address 10.#$34T#.1.11 port 2000
+  ip source-address 10.21.1.11 port 2000
   exit
  voice service voip
   allow-connections h323 to sip
@@ -605,7 +605,7 @@ config t
    registrar server expires max 600 min 60
  voice register global
   mode cme
-  source-address 10.#$34T#.1.11 port 5060
+  source-address 10.21.1.11 port 5060
   max-dn 12
   max-pool 12
   authenticate register
@@ -711,17 +711,17 @@ conf t
 
 
 ### [Activity] On the EDGE Router create an extended ACL named FWP4 with the following:
-- Allow Pings destined for your PC (10.#$34T#.1.10)  
+- Allow Pings destined for your PC (10.21.1.10)  
 - Allow Telnet access to your CoreBABA's VLAN 1 SVI,  
 - but make sure to block everything else  
 
 <br>
 
 ~~~
-!@EDGE-#$34T#
+!@EDGE-21
 config t
  ip access-list extended FWP5
-  permit  icmp  any  host 10.#$34T#.1.10             log 
+  permit  icmp  any  host 10.21.1.10             log 
   permit  tcp   any  host  ___.___.___.___  eq  ____  log
   
   
@@ -738,7 +738,7 @@ show ip access-list int g0/0/1
 
 Remove the ACL
 ~~~
-!@EDGE-#$34T#
+!@EDGE-21
 conf t
  int gi 0/0/1
   no ip access-group FWP5 in
@@ -866,8 +866,8 @@ conf t
  !
  ip nat inside source static tcp  11.11.11.111  80  208.8.8.100  8080
  !
- no ip route 10.0.0.0 255.0.0.0 10.#$34T#.1.4
- no ip route 200.0.0.0 255.255.255.0 10.#$34T#.1.4
+ no ip route 10.0.0.0 255.0.0.0 10.21.1.4
+ no ip route 200.0.0.0 255.255.255.0 10.21.1.4
  end
 ~~~
 
@@ -907,15 +907,15 @@ adduser admin
 
 | SERVER      | INSIDE PORT | OUTSIDE IP     | OUTSIDE PORT |
 | ---         | ---         | ---            | ---          |
-| CoreTAAS    | 23          | 200.0.0.#$34T# | 2023         |
-| CoreBABA    | 23          | 200.0.0.#$34T# | 4023         |
-| CUCM        | 23          | 200.0.0.#$34T# | 8020         |
+| CoreTAAS    | 23          | 200.0.0.21 | 2023         |
+| CoreBABA    | 23          | 200.0.0.21 | 4023         |
+| CUCM        | 23          | 200.0.0.21 | 8020         |
 
 
 <br>
 
 ~~~
-!@EDGE-#$34T#
+!@EDGE-21
 conf t
  int g0/0/0
   ip nat inside
@@ -926,7 +926,7 @@ conf t
  !
  !
  ip access-list extended NAT-POLICY
-  permit ip 10.#$34T#.0.0  0.0.255.255  any
+  permit ip 10.21.0.0  0.0.255.255  any
   exit
  !
  !
@@ -940,13 +940,13 @@ conf t
 
 
 ~~~
-!@EDGE-#$34T#
+!@EDGE-21
 conf t
  no router ospf 1
  router ospf 1
-  router-id #$34T#.0.0.1
-  network 10.#$34T#.#$34T#.0 0.0.0.255 area 0
-  network #$34T#.0.0.1       0.0.0.0   area 0
+  router-id 21.0.0.1
+  network 10.21.21.0 0.0.0.255 area 0
+  network 21.0.0.1       0.0.0.0   area 0
   default-information originate always
   end
 ~~~
@@ -956,12 +956,12 @@ conf t
 
 
 ~~~
-!@EDGE-#$34T#
+!@EDGE-21
 conf t
- ip nat inside source static tcp  10.#$34T#.1.4  23  200.0.0.#$34T#  4023
+ ip nat inside source static tcp  10.21.1.4  23  200.0.0.21  4023
  !
- ip nat inside source static tcp  10.#$34T#.1.4  __  __.__.__.__     __
- ip nat inside source static tcp  10.#$34T#.1.4  __  __.__.__.__     __
+ ip nat inside source static tcp  10.21.1.4  __  __.__.__.__     __
+ ip nat inside source static tcp  10.21.1.4  __  __.__.__.__     __
  end
 ~~~
 
@@ -1262,9 +1262,9 @@ AmbientCapabilities=CAP_NET_BIND_SERVICE
 ### STEP 7. Set a Port Forwarding Rule for the Honeypot Server
 
 ~~~
-!@EDGE-#$34T#
+!@EDGE-21
 conf t
- ip nat inside source static tcp  10.#$34T#.1.11  6969  200.0.0.#$34T#  3306
+ ip nat inside source static tcp  10.21.1.11  6969  200.0.0.21  3306
  end
 ~~~
 
@@ -1377,12 +1377,12 @@ to enforce the access allowed by a policy.
 # Site to Site Connectivity
 
 ~~~
-!@EDGE-#$34T#
+!@EDGE-21
 conf t
  no router ospf 1
  router ospf 1
-  router-id #$34T#.0.0.1
-  network 10.#$34T#.#$34T#.0 0.0.0.255 area 0
+  router-id 21.0.0.1
+  network 10.21.21.0 0.0.0.255 area 0
   default-information originate always
   end
 ~~~
@@ -1392,29 +1392,29 @@ conf t
 
 
 ~~~
-!@EDGE-#$34T#
+!@EDGE-21
 conf t
  no ip access-list extended NAT-POLICY
  ip access-list extended NAT-POLICY
-  deny ip 10.#$34T#.0.0 0.0.255.255 10.11.0.0 0.0.255.255
-  deny ip 10.#$34T#.0.0 0.0.255.255 10.12.0.0 0.0.255.255
-  deny ip 10.#$34T#.0.0 0.0.255.255 10.21.0.0 0.0.255.255
-  deny ip 10.#$34T#.0.0 0.0.255.255 10.22.0.0 0.0.255.255
-  deny ip 10.#$34T#.0.0 0.0.255.255 10.31.0.0 0.0.255.255
-  deny ip 10.#$34T#.0.0 0.0.255.255 10.32.0.0 0.0.255.255
-  deny ip 10.#$34T#.0.0 0.0.255.255 10.41.0.0 0.0.255.255
-  deny ip 10.#$34T#.0.0 0.0.255.255 10.42.0.0 0.0.255.255
-  deny ip 10.#$34T#.0.0 0.0.255.255 10.51.0.0 0.0.255.255
-  deny ip 10.#$34T#.0.0 0.0.255.255 10.52.0.0 0.0.255.255
-  deny ip 10.#$34T#.0.0 0.0.255.255 10.61.0.0 0.0.255.255
-  deny ip 10.#$34T#.0.0 0.0.255.255 10.62.0.0 0.0.255.255
-  deny ip 10.#$34T#.0.0 0.0.255.255 10.71.0.0 0.0.255.255
-  deny ip 10.#$34T#.0.0 0.0.255.255 10.72.0.0 0.0.255.255
-  deny ip 10.#$34T#.0.0 0.0.255.255 10.81.0.0 0.0.255.255
-  deny ip 10.#$34T#.0.0 0.0.255.255 10.82.0.0 0.0.255.255
-  deny ip 10.#$34T#.0.0 0.0.255.255 10.91.0.0 0.0.255.255
-  deny ip 10.#$34T#.0.0 0.0.255.255 10.92.0.0 0.0.255.255
-  no deny ip 10.#$34T#.0.0 0.0.255.255 10.#$34T#.0.0 0.0.255.255
+  deny ip 10.21.0.0 0.0.255.255 10.11.0.0 0.0.255.255
+  deny ip 10.21.0.0 0.0.255.255 10.12.0.0 0.0.255.255
+  deny ip 10.21.0.0 0.0.255.255 10.21.0.0 0.0.255.255
+  deny ip 10.21.0.0 0.0.255.255 10.22.0.0 0.0.255.255
+  deny ip 10.21.0.0 0.0.255.255 10.31.0.0 0.0.255.255
+  deny ip 10.21.0.0 0.0.255.255 10.32.0.0 0.0.255.255
+  deny ip 10.21.0.0 0.0.255.255 10.41.0.0 0.0.255.255
+  deny ip 10.21.0.0 0.0.255.255 10.42.0.0 0.0.255.255
+  deny ip 10.21.0.0 0.0.255.255 10.51.0.0 0.0.255.255
+  deny ip 10.21.0.0 0.0.255.255 10.52.0.0 0.0.255.255
+  deny ip 10.21.0.0 0.0.255.255 10.61.0.0 0.0.255.255
+  deny ip 10.21.0.0 0.0.255.255 10.62.0.0 0.0.255.255
+  deny ip 10.21.0.0 0.0.255.255 10.71.0.0 0.0.255.255
+  deny ip 10.21.0.0 0.0.255.255 10.72.0.0 0.0.255.255
+  deny ip 10.21.0.0 0.0.255.255 10.81.0.0 0.0.255.255
+  deny ip 10.21.0.0 0.0.255.255 10.82.0.0 0.0.255.255
+  deny ip 10.21.0.0 0.0.255.255 10.91.0.0 0.0.255.255
+  deny ip 10.21.0.0 0.0.255.255 10.92.0.0 0.0.255.255
+  no deny ip 10.21.0.0 0.0.255.255 10.21.0.0 0.0.255.255
   permit ip any any
   end
 ~~~
@@ -1424,10 +1424,10 @@ conf t
 
 
 ~~~
-!@EDGE-#$34T#
+!@EDGE-21
 conf t
  int tun1
-  ip add 172.16.1.#$34T# 255.255.255.0
+  ip add 172.16.1.21 255.255.255.0
   tunnel source g0/0/1
   tunnel mode gre multipoint
   no shut
@@ -1453,7 +1453,7 @@ conf t
   ip nhrp map 172.16.1.82 200.0.0.82
   ip nhrp map 172.16.1.91 200.0.0.91
   ip nhrp map 172.16.1.92 200.0.0.92
-  no ip nhrp map 172.16.1.#$34T# 200.0.0.#$34T#
+  no ip nhrp map 172.16.1.21 200.0.0.21
   exit
  !
  !
@@ -1476,7 +1476,7 @@ conf t
  ip route 10.91.0.0 255.255.0.0 172.16.1.91 252
  ip route 10.92.0.0 255.255.0.0 172.16.1.92 252
  !
- no ip route 10.#$34T#.0.0 255.255.0.0 172.16.1.#$34T# 252
+ no ip route 10.21.0.0 255.255.0.0 172.16.1.21 252
  end
 ~~~
 
